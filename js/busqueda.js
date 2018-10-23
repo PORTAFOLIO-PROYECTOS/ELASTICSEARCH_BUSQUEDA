@@ -74,6 +74,8 @@ function resultadosngram310(){
     ejecutarBusqueda(textoBusqueda, 'resultadosngram310', ngram310);
 }    
 
-function limpiar(elemento){
+function limpiar(elemento, texto){
     $('#' + elemento).html('');
+    $('#' + texto).val('');
+    $('#' + texto).focus();
 }

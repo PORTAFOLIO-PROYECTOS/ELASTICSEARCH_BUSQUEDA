@@ -19,33 +19,35 @@
             </a>
         </div>
     </nav>
-    
+    <br>
+    <br>
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-4">Busqueda</h1>
+            <p class="lead">Página para la prueba de productos por EDGE o NGRAM.</p>
+        </div>
+    </div>
     <main class="container" role="main">
-        <div class="jumbotron">
-            <div class="container">
-                <h1 class="display-4">Busqueda</h1>
-                <p class="lead">Página para la prueba de productos por EDGE o NGRAM.</p>
-            </div>
-        </div>
         <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-edge310-tab" data-toggle="tab" href="#nav-edge310" role="tab" aria-controls="nav-edge310" aria-selected="true">edge310</a>
-            <a class="nav-item nav-link" id="nav-ngram310-tab" data-toggle="tab" href="#nav-ngram310" role="tab" aria-controls="nav-ngram310" aria-selected="false">ngram310</a>
-        </div>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-edge310-tab" data-toggle="tab" href="#nav-edge310" role="tab" aria-controls="nav-edge310" aria-selected="true">edge310</a>
+                <a class="nav-item nav-link" id="nav-ngram310-tab" data-toggle="tab" href="#nav-ngram310" role="tab" aria-controls="nav-ngram310" aria-selected="false">ngram310</a>
+            </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-edge310" role="tabpanel" aria-labelledby="nav-edge310-tab">
                 <br>
-                <form class="form-inline" role="form">
-                    <label class="sr-only" for="textoBusqueda" autofocus>Texto</label>
+                <form class="form-inline">
+                    <label class="sr-only" for="textoBusquedaedge310" autofocus>Texto</label>
                     <input type="text" class="form-control mb-2 mr-sm-2" id="textoBusquedaedge310" placeholder="Texto de busqueda" autocomplete="off">
+                    <input type="text" style="display: none">
                     <button type="button" class="btn btn-primary mb-2" onclick="resultadosedge310()">Buscar</button>
                     &nbsp;
-                    <button type="button" class="btn btn-info mb-2" onclick="limpiar('resultadosedge310');">Limpiar</button>
+                    <button type="button" class="btn btn-info mb-2" onclick="limpiar('resultadosedge310', 'textoBusquedaedge310');">Limpiar</button>
                 </form>
                 <br>
                 <div class="table-responsive" style="height: 400px">
-                    <table class="table table-hover">
+                    <table class="table table-hover table-bordered">
                         <thead>
                             <tr>
                             <th scope="col">#</th>
@@ -61,15 +63,16 @@
             <div class="tab-pane fade" id="nav-ngram310" role="tabpanel" aria-labelledby="nav-ngram310-tab">
                 <br>
                 <form class="form-inline" role="form">
-                    <label class="sr-only" for="textoBusqueda" autofocus>Texto</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="textoBusquedangram310" placeholder="Texto de busqueda">
+                    <label class="sr-only" for="textoBusquedangram310" autofocus>Texto</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="textoBusquedangram310" placeholder="Texto de busqueda" autocomplete="off">
+                    <input type="text" style="display: none">
                     <button type="button" class="btn btn-primary mb-2" onclick="resultadosngram310()">Buscar</button>
                     &nbsp;
-                    <button type="button" class="btn btn-info mb-2" onclick="limpiar('resultadosngram310');">Limpiar</button>
+                    <button type="button" class="btn btn-info mb-2" onclick="limpiar('resultadosngram310', 'textoBusquedangram310');">Limpiar</button>
                 </form>
                 <br>
                 <div class="table-responsive" style="height: 400px">
-                    <table class="table table-hover">
+                    <table class="table table-hover table-bordered">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -84,18 +87,28 @@
             </div>
         </div>
     </main>
-
-    <script>
-    
-    $(document).ready(function(){
-        $("#textoBusquedaedge310").keypress(function(e) {
-            var code = (e.keyCode ? e.keyCode : e.which);
-            if(code==13){
-                resultadosedge310();
-            }
+    <hr>
+    <footer>
+        <h6 class="text-center">Pruebas de busqueda en elasticsearch</h6>
+    </footer>
+    <script>    
+        $(document).ready(function(){
+            $("#textoBusquedaedge310").keypress(function(e) {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if(code==13){
+                    resultadosedge310();
+                }
+            });
         });
-    });
 
+        $(document).ready(function(){
+            $("#textoBusquedangram310").keypress(function(e) {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if(code==13){
+                    resultadosngram310();
+                }
+            });
+        });
     </script>
 </body>
 </html>
