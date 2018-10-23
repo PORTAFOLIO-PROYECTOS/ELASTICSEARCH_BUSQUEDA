@@ -8,117 +8,94 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/busqueda.js"></script>
-    <title>Prueba Buscador</title>
+    <title>Prueba Buscador | Elasticsearch</title>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center">Prueba de Busqueda ES</h1>
-        <hr>
-        <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-edge310-tab" data-toggle="tab" href="#nav-edge310" role="tab" aria-controls="nav-edge310" aria-selected="true">edge310</a>
-                <a class="nav-item nav-link" id="nav-edge33-tab" data-toggle="tab" href="#nav-edge33" role="tab" aria-controls="nav-edge33" aria-selected="false">edge33</a>
-                <a class="nav-item nav-link" id="nav-ngram310-tab" data-toggle="tab" href="#nav-ngram310" role="tab" aria-controls="nav-ngram310" aria-selected="false">ngram310</a>
-                <a class="nav-item nav-link" id="nav-ngram33-tab" data-toggle="tab" href="#nav-ngram33" role="tab" aria-controls="nav-ngram33" aria-selected="false">ngram33</a>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="img/elasticsearch.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+                Elasticsearch
+            </a>
+        </div>
+    </nav>
+    
+    <main class="container" role="main">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-4">Busqueda</h1>
+                <p class="lead">Página para la prueba de productos por EDGE o NGRAM.</p>
             </div>
+        </div>
+        <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-edge310-tab" data-toggle="tab" href="#nav-edge310" role="tab" aria-controls="nav-edge310" aria-selected="true">edge310</a>
+            <a class="nav-item nav-link" id="nav-ngram310-tab" data-toggle="tab" href="#nav-ngram310" role="tab" aria-controls="nav-ngram310" aria-selected="false">ngram310</a>
+        </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-edge310" role="tabpanel" aria-labelledby="nav-edge310-tab">
                 <br>
-                <form class="form-inline">
+                <form class="form-inline" role="form">
                     <label class="sr-only" for="textoBusqueda" autofocus>Texto</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="textoBusquedaedge310" placeholder="Texto de busqueda">
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="textoBusquedaedge310" placeholder="Texto de busqueda" autocomplete="off">
                     <button type="button" class="btn btn-primary mb-2" onclick="resultadosedge310()">Buscar</button>
                     &nbsp;
-                    <button type="button" class="btn btn-info mb-2">Limpiar</button>
+                    <button type="button" class="btn btn-info mb-2" onclick="limpiar('resultadosedge310');">Limpiar</button>
                 </form>
                 <br>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Tipo Personalizacion</th>
-                        <th scope="col">Score</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultadosedge310"></tbody>
-                </table>
-            </div>
-            <div class="tab-pane fade" id="nav-edge33" role="tabpanel" aria-labelledby="nav-edge33-tab">
-                <br>
-                <form class="form-inline">
-                    <label class="sr-only" for="textoBusqueda" autofocus>Texto</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2" id="textoBusquedaedge33" placeholder="Texto de busqueda">
-                    <button type="button" class="btn btn-primary mb-2" onclick="resultadosedge33()">Buscar</button>
-                    &nbsp;
-                    <button type="button" class="btn btn-info mb-2">Limpiar</button>
-                </form>
-                <br>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Descripción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultadosedge33"></tbody>
-                </table>
+                <div class="table-responsive" style="height: 400px">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Tipo Personalizacion</th>
+                            <th scope="col">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultadosedge310"></tbody>
+                    </table>
+                </div>
             </div>
             <div class="tab-pane fade" id="nav-ngram310" role="tabpanel" aria-labelledby="nav-ngram310-tab">
-                <section>
-                    <h1>ngram310</h1>
-                </section>
-            </div>
-            <div class="tab-pane fade" id="nav-ngram33" role="tabpanel" aria-labelledby="nav-ngram33-tab">
-                <section>
-                    <h1>ngram33</h1>
-                </section>
+                <br>
+                <form class="form-inline" role="form">
+                    <label class="sr-only" for="textoBusqueda" autofocus>Texto</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" id="textoBusquedangram310" placeholder="Texto de busqueda">
+                    <button type="button" class="btn btn-primary mb-2" onclick="resultadosngram310()">Buscar</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-info mb-2" onclick="limpiar('resultadosngram310');">Limpiar</button>
+                </form>
+                <br>
+                <div class="table-responsive" style="height: 400px">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Tipo Personalizacion</th>
+                                <th scope="col">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultadosngram310"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        function resultadosedge310(){
-            textoBusqueda = $('#textoBusquedaedge310').val();
-            Buscador(edge310, textoBusqueda).then((r) => {
-                var tabla = llenaTabla(r);
-                $('#resultadosedge310').html(tabla);
-            }, (e) => {
-                console.error(e);
-            });
-        }
-
-function resultadosedge310(){
-            textoBusqueda = $('#textoBusquedaedge310').val();
-            Buscador(edge310, textoBusqueda).then((r) => {
-                var tabla = llenaTabla(r);
-                $('#resultadosedge310').html(tabla);
-            }, (e) => {
-                console.error(e);
-            });
-        }
-
-        function resultadosedge310(){
-            textoBusqueda = $('#textoBusquedaedge310').val();
-            Buscador(edge310, textoBusqueda).then((r) => {
-                var tabla = llenaTabla(r);
-                $('#resultadosedge310').html(tabla);
-            }, (e) => {
-                console.error(e);
-            });
-        }
-
-        function resultadosedge310(){
-            textoBusqueda = $('#textoBusquedaedge310').val();
-            Buscador(edge310, textoBusqueda).then((r) => {
-                var tabla = llenaTabla(r);
-                $('#resultadosedge310').html(tabla);
-            }, (e) => {
-                console.error(e);
-            });
-        }
     
+    $(document).ready(function(){
+        $("#textoBusquedaedge310").keypress(function(e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if(code==13){
+                resultadosedge310();
+            }
+        });
+    });
+
     </script>
 </body>
 </html>

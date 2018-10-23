@@ -2,11 +2,9 @@
 
 let url = 'https://vpc-es-sbsearch-qas-u4pht5gehqu3pmsc4x5srachwu.us-east-1.es.amazonaws.com',
     edge310 = 'edge310_producto_cr_201816',
-    edge33 = 'edge33_producto_cr_201816',
-    ngram310 = 'ngram310_producto_cr_201816',
-    ngram33 = 'ngram33_producto_cr_201816';
+    ngram310 = 'ngram310_producto_cr_201816';
 
-function cuerpo(textoBusqueda, ) {
+function cuerpo(textoBusqueda) {
     return {
         "size": 100,
         "query": {
@@ -55,4 +53,27 @@ function llenaTabla(r) {
 
     return tabla;
 
+}
+
+function ejecutarBusqueda(texto, tbl, index){
+    Buscador(index, texto).then((r) => {
+        var tabla = llenaTabla(r);
+        $('#' + tbl).html(tabla);
+    }, (e) => {
+        console.error(e);
+    });
+}
+
+function resultadosedge310(){
+    var textoBusqueda = $('#textoBusquedaedge310').val();
+    ejecutarBusqueda(textoBusqueda, 'resultadosedge310', edge310);
+}
+
+function resultadosngram310(){
+    var textoBusqueda = $('#textoBusquedangram310').val();
+    ejecutarBusqueda(textoBusqueda, 'resultadosngram310', ngram310);
+}    
+
+function limpiar(elemento){
+    $('#' + elemento).html('');
 }
