@@ -8,20 +8,21 @@ function cuerpo(textoBusqueda) {
     return {
         "size": 100,
         "query": {
-            "multi_match" : {
-                  "query":  textoBusqueda,
-                  "type": "best_fields",
-                  "fields": [ "textoBusqueda^7", "textoBusqueda.ngram^4", "marcas^2", "marcas.ngram" ]
-                  //,"operator": "and"
+            "multi_match": {
+                "query": textoBusqueda,
+                "type": "best_fields",
+                "fields": ["textoBusqueda^7", "textoBusqueda.ngram^4", "marcas^2", "marcas.ngram"]
+                //,"operator": "and"
+            }
+        },
+        "sort": [{
+                "orden": {
+                    "order": "asc"
                 }
-          },
-          "sort": [
-            { 
-                "orden" : {"order" : "asc"}
             },
             "_score"
-          ]
-       };
+        ]
+    };
 }
 
 function Buscador(index, texto) {
@@ -48,34 +49,47 @@ function llenaTabla(r) {
         tabla += `<td>${element.textoBusqueda}</td>`;
         tabla += `<td class="text-center">${element.tipoPersonalizacion}</td>`;
         tabla += `<td class="text-right">${res._score}</td>`;
-        tabla += '</tr>' ;
+        tabla += '</tr>';
     }
 
     return tabla;
 
 }
 
-function ejecutarBusqueda(texto, tbl, index){
+function ejecutarBusqueda(texto, tbl, index) {
+    cargando(true);
     Buscador(index, texto).then((r) => {
         var tabla = llenaTabla(r);
         $('#' + tbl).html(tabla);
+        cargando(false);
     }, (e) => {
         console.error(e);
+        cargando(false);
     });
 }
 
-function resultadosedge310(){
+function resultadosedge310() {
     var textoBusqueda = $('#textoBusquedaedge310').val();
+    if (textoBusqueda == '') return false;
     ejecutarBusqueda(textoBusqueda, 'resultadosedge310', edge310);
 }
 
-function resultadosngram310(){
+function resultadosngram310() {
     var textoBusqueda = $('#textoBusquedangram310').val();
+    if (textoBusqueda == '') return false;
     ejecutarBusqueda(textoBusqueda, 'resultadosngram310', ngram310);
-}    
+}
 
-function limpiar(elemento, texto){
+function limpiar(elemento, texto) {
     $('#' + elemento).html('');
     $('#' + texto).val('');
     $('#' + texto).focus();
+}
+
+function cargando(val){
+    if (val){
+        $('.cargaPantalla').fadeIn('slow');
+    }else{
+        $('.cargaPantalla').fadeOut('slow');
+    }
 }
