@@ -58,12 +58,14 @@ function llenaTabla(r) {
 
 function ejecutarBusqueda(texto, tbl, index) {
     cargando(true);
+    $('.alert-danger').fadeOut('slow');
     Buscador(index, texto).then((r) => {
         var tabla = llenaTabla(r);
         $('#' + tbl).html(tabla);
         cargando(false);
     }, (e) => {
         console.error(e);
+        $('.alert-danger').fadeIn('slow');
         cargando(false);
     });
 }
