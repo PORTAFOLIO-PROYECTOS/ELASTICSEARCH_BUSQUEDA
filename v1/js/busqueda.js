@@ -1,32 +1,32 @@
 'use strict'
 
 let url = 'https://vpc-es-sbsearch-qas-u4pht5gehqu3pmsc4x5srachwu.us-east-1.es.amazonaws.com',
-    edge310 = 'edge310_producto_cr_201816',
-    ngram310 = 'ngram310_producto_cr_201816';
+    edge310 = 'dev_producto_cr_201816',
+    ngram310 = 'dev_producto_cr_201816';
 
 function cuerpo(textoBusqueda) {
     return {
-        "size": 100,
-        "query": {
-            "multi_match": {
-                "query": textoBusqueda,
-                "type": "best_fields",
-                "fields": ["textoBusqueda^7", "textoBusqueda.ngram^4", "marcas^2", "marcas.ngram"]
-                //,"operator": "and"
-            }
-        },
-        "sort": [{
-                "orden": {
-                    "order": "asc"
-                }
-            },
-            "_score"
-        ]
-    };
+		"size": 100,
+		"query": {
+			"bool": {
+				"must": {
+					"multi_match": {
+						"query": textoBusqueda,
+						"type": "best_fields",
+						"fields": ["textoBusqueda.ngram^2", "marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram"]
+					}
+				},
+				"filter":{
+					"term": {"codigoConsultora": "YYYYYYYYY"}
+				}
+			}
+		}
+	};
 }
 
 function Buscador(index, texto) {
     let body = cuerpo(texto);
+	console.log(JSON.stringify(body));
     return $.ajax({
         url: `${url}/${index}/_doc/_search`,
         type: 'post',
