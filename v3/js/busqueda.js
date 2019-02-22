@@ -207,7 +207,8 @@ function ejecutarBusqueda(texto, tbl, index, opcion) {
     cargando(true);
     $('.alert-danger').fadeOut('slow');
     getElasticResult(index, texto, opcion).then((r) => {
-        var tabla = llenaTabla(r);        
+        var tabla = llenaTabla(r);     
+        console.log("Data", r);
         showCount(r.hits.total);
         $('#' + tbl).html(tabla);
         cargando(false);
@@ -230,7 +231,6 @@ function resultado() {
 
     let opcion = $('#opcion-query').find("option:selected").val();
     
-    console.log(opcion);
     ejecutarBusqueda(textoBusqueda, 'resultado', getSelectedIndex(), opcion);
     if(!$('#tabla-datos tbody tr').length){
         if($('#chk-intentar').is(":checked")){
