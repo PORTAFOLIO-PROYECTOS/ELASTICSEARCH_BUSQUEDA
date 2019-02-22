@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/responsive.dataTables.min.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="js/querys.js"></script>
     <script src="js/busqueda.js"></script>
     <script src="js/dataTables.min.js"></script>
     <script src="js/dataTables.responsive.min.js"></script>
@@ -24,7 +25,7 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="img/elasticsearch.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+                <img src="images/" width="30" height="30" class="d-inline-block align-top" alt="">
                 Elasticsearch
             </a>
         </div>
@@ -81,21 +82,22 @@
         </div>
         <p><strong id="th-contador">Documento encontrados: 0</strong></p>                 
         <div class="table-responsive">
-            <table id="tabla-datos" class="table table-hover table-bordered">
+            <table id="tabladatos" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Descripción</th>
-                        <!-- <th scope="col">Marcas</th>
-                        <th scope="col">Categorias</th>
-                        <th scope="col">Grupo Articulos</th>
-                        <th scope="col">Lineas</th> -->
-                        <th scope="col">Tipo Personalizacion</th>
-                        <th scope="col">Score</th>
-                        <th scope="col"></th>
+                        <th></th>
+                        <th>#</th>
+                        <th>Descripción</th>
+                        <th>Score</th>
+                        <th>Marcas</th>
+                        <th>Categorías</th>
+                        <th>Grupo Artículos</th>
+                        <th>Lineas</th>
+                        <th>Sección</th>
+                        <th>Personalización</th>
                     </tr>
                 </thead>
-                <tbody id="resultado"></tbody>
+                <tbody></tbody>
             </table>
         </div>
     </main>
