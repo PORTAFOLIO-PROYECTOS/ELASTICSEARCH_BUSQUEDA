@@ -44,13 +44,15 @@ function llenaTabla(r) {
             top: i,
             id: res._id,
             textoBusqueda: element.textoBusqueda,
-            marcas: element.marcas,
-            categorias: element.categorias,
-            grupoArticulos: element.grupoArticulos,
-            lineas: element.lineas,
+            marcas: JSON.stringify(element.marcas),
+            categorias: JSON.stringify(element.categorias),
+            grupoArticulos: JSON.stringify(element.grupoArticulos),
+            lineas: JSON.stringify(element.lineas),
             seccion: element.seccion,
             tipoPersonalizacion: element.tipoPersonalizacion,
             score: res._score,
+            codigoEstrategia: element.codigoEstrategia,
+            cuv: element.cuv
         };
 
         documentos.push(documentoResumido);
@@ -73,6 +75,7 @@ function ejecutarBusqueda(texto, tbl, index, opcion) {
         $('#tabladatos').DataTable( {
             data: tabla,
             searching: false,
+            bDestroy: true,
             responsive: {
                 details: {
                     type: 'column'
@@ -89,12 +92,14 @@ function ejecutarBusqueda(texto, tbl, index, opcion) {
                 { data: 'top' },
                 { data: 'textoBusqueda' },
                 { data: 'score' },
+                { data: 'cuv'},
+                { data: 'tipoPersonalizacion'},
                 { data: 'marcas' },
                 { data: 'categorias'},
                 { data: 'grupoArticulos'},
                 { data: 'lineas'},
                 { data: 'seccion'},
-                { data: 'tipoPersonalizacion'}
+                { data: 'codigoEstrategia'}
             ]
         } );
         //$('#' + tbl).html(tabla);

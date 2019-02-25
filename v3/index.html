@@ -16,6 +16,7 @@
     <script src="js/dataTables.min.js"></script>
     <script src="js/dataTables.responsive.min.js"></script>
     <title>Prueba Buscador | Elasticsearch</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -25,47 +26,41 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="images/" width="30" height="30" class="d-inline-block align-top" alt="">
+                <img src="images/elasticsearch.svg" width="30" height="30" class="d-inline-block align-top" alt="">
                 Elasticsearch
             </a>
         </div>
     </nav>
-    <h1 class="mt-5 text-center display-4">Pruebas de concepto</h1>
-    <main class="container" role="main" style="margin-top:20px">
-        <hr>
+    <!-- <h1 class="mt-5 text-center display-4">Pruebas de concepto</h1> -->
+    <main class="container mt-5 pt-4" role="main">
         <div class="alert alert-danger" role="alert" style="display: none">
             Ocurrió un error al momento de buscar, por favor revisar...
         </div>
         <div>
-            <form>
+            <form role="form" onsubmit="return false;">
                 <div class="form-group row">
-                    <label class="col-md-5 col-form-label text-right" for="opcion-index" autofocus>Seleccione una opción para el Indice (PE 201903):</label>
+                    <label class="col-md-5 col-form-label" for="opcion-index" autofocus>Seleccione una opción para el
+                        Indice (PE 201903):</label>
                     <div class="col-md-4">
                         <select id="opcion-index" class="form-control">
                             <option value="edge_ngram_producto_v1_pe_201903">ORIGINAL (combinado)</option>
                             <option value="ngram_producto_v1_pe_201903">NGRAM</option>
-                            <option value="edge_producto_v1_pe_201903">EDGE</option>  
-                        </select>
-                    </div>
-                </div>  
-                <div class="form-group row">
-                    <label class="col-md-5 col-form-label text-right" for="opcion-query">Elija una Opción para la variante de la consulta en Elastic:</label>
-                    <div class="col-md-4">
-                        <select id="opcion-query" class="form-control">
-                            <option value="1">1 - Original (incluye AND)</option>
-                            <option value="2">2 - textoBusqueda.ngram OR (marcas & categorias & lineas & grupoArticulos & seccion)</option>
-                            <option value="3">3 - original sin AND</option>
-                            <option value="4">4 - (textoBusqueda^5 AND textoBusqueda.ngram^2) OR (marcas & categorias & lineas & grupoArticulos & seccion)</option>
+                            <option value="edge_producto_v1_pe_201903">EDGE</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-4 offset-md-5">
-                        <input type="text" class="form-control" id="textoBusqueda" placeholder="Texto de busqueda" autocomplete="off">
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-primary mb-2" onclick="resultado()">Buscar</button>
-                        <button type="button" class="btn btn-info mb-2" onclick="limpiar('resultado', 'textoBusqueda');">Limpiar</button>
+                    <label class="col-md-5 col-form-label" for="opcion-query">Elija una Opción para la variante de la
+                        consulta en Elastic:</label>
+                    <div class="col-md-4">
+                        <select id="opcion-query" class="form-control">
+                            <option value="1">1 - Original (incluye AND)</option>
+                            <option value="2">2 - textoBusqueda.ngram OR (marcas & categorias & lineas & grupoArticulos
+                                & seccion)</option>
+                            <option value="3">3 - original sin AND</option>
+                            <option value="4">4 - (textoBusqueda^5 AND textoBusqueda.ngram^2) OR (marcas & categorias &
+                                lineas & grupoArticulos & seccion)</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -78,9 +73,107 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="col-md-4 offset-md-5">
+                        <input type="text" class="form-control" id="textoBusqueda" placeholder="Texto de busqueda"
+                            autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-4 offset-md-5">
+                        <button type="button" class="btn btn-primary mb-2" onclick="resultado()">Buscar</button>
+                        <button type="button" class="btn btn-info mb-2"
+                            onclick="limpiar('resultado', 'textoBusqueda');">Limpiar</button>
+                        <button type="button" class="btn btn-danger mb-2" data-toggle="collapse"
+                            data-target="#searchAdvance" aria-expanded="false" aria-controls="searchAdvance">Busqueda
+                            avanzada</button>
+                    </div>
+                </div>
+                <div class="collapse mb-3" id="searchAdvance">
+                    <div class="card card-body">
+                        <h5>Busqueda avanzada</h5>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="opcion-index">Código Consultora:</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="opcion-index">Código Zona:</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="opcion-index">Personalizaciónes:</label>
+                                    <input type="text" class="form-control" placeholder="OPM,PAD,SR...">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="opcion-index">Día facturación:</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="sociaEmpresaria">
+                                    <label class="form-check-label" for="sociaEmpresaria">
+                                        Socia Empresaria
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="suscripcionActiva">
+                                    <label class="form-check-label" for="suscripcionActiva">
+                                        Suscripcion Activa
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="mdo">
+                                    <label class="form-check-label" for="mdo">
+                                        MDO
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="rd">
+                                    <label class="form-check-label" for="rd">
+                                        RD
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="rdi">
+                                    <label class="form-check-label" for="rdi">
+                                        RDI
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="rdr">
+                                    <label class="form-check-label" for="rdr">
+                                        RDR
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-info mb-2" type="button">Aplicar</button>
+                    </div>
+                </div>
             </form>
         </div>
-        <p><strong id="th-contador">Documento encontrados: 0</strong></p>                 
+        <p><strong id="th-contador">Documento encontrados: 0</strong></p>
         <div class="table-responsive">
             <table id="tabladatos" class="display nowrap" style="width:100%">
                 <thead>
@@ -89,12 +182,14 @@
                         <th>#</th>
                         <th>Descripción</th>
                         <th>Score</th>
+                        <th>CUV</th>
+                        <th>Personalización</th>
                         <th>Marcas</th>
                         <th>Categorías</th>
                         <th>Grupo Artículos</th>
                         <th>Lineas</th>
                         <th>Sección</th>
-                        <th>Personalización</th>
+                        <th>Cod. Estrategia</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -106,45 +201,9 @@
         <h6 class="text-center">Pruebas de busqueda en elasticsearch</h6>
     </footer>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modal-detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detalle</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        <span><strong>Id: </strong></span><span id="span-id"></span>
-                    </div>
-                    <div>
-                        <span><strong>Marcas: </strong></span><span id="span-marcas"></span>
-                    </div>
-                    <div>
-                        <span><strong>Categorias: </strong></span><span id="span-categorias"></span>
-                    </div>
-                    <div>
-                        <span><strong>Lineas: </strong></span><span id="span-lineas"></span>
-                    </div>
-                    <div>
-                        <span><strong>Grupo Artículos: </strong></span><span id="span-grupo-articulos"></span>
-                    </div>
-                    <div>
-                        <span><strong>Sección: </strong></span><span id="span-seccion"></span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-            </div>
-        </div>
-
     <script>
         $(document).ready(function () {
+            $("#textoBusqueda").focus();
             cargando(false);
 
             $("#textoBusqueda").keypress(function (e) {
@@ -152,19 +211,6 @@
                 if (code == 13) {
                     resultado();
                 }
-            });
-
-            $(document).on("click", "button[name=btn-ver-mas]", function(e){
-                e.preventDefault();
-                let docId = $(this).closest('tr').data("id");
-                let item = documents.find( item => item.id === docId);
-                $("#span-id").text(item.id);
-                $("#span-marcas").text(item.marcas.toString());
-                $("#span-categorias").text(item.categorias.toString());
-                $("#span-lineas").text(item.lineas.toString());
-                $("#span-grupo-articulos").text(item.grupoArticulos.toString());
-                $("#span-seccion").text(item.seccion);
-                $("#modal-detalle").modal('show');
             });
         });
     </script>
