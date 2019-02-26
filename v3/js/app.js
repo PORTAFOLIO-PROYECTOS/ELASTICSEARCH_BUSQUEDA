@@ -20,12 +20,20 @@ const app = (function () {
         chkRdi: "#rdi",
         chkRdr: "#rdr",
         btnBuscar: "#btnBuscar",
-        btnLimpiar: "#btnLimpiar"
+        btnLimpiar: "#btnLimpiar",
+        tablaResultados: "#tabladatos",
+        contadorResultados: "#contadorResultados"
     }
 
     const _funciones = {
         InicializarEventos: function () {
             $(document).on("click", _elementos.btnBuscar, _eventos.buscar);
+
+            _eventos.valoresDefault();
+        },
+
+        error: function (val) {
+            return val ? $(_elementos.errorMensaje).fadeIn("slow") : $(_elementos.errorMensaje).fadeOut("slow");
         },
 
         cargando: function (val) {
@@ -51,7 +59,7 @@ const app = (function () {
 
             _funciones.queryPersonalizacionesCondiciones(parametros, personalizaciones, must);
 
-            let multi_match = [];//parametros.textoBusqueda === "" || parametros.textoBusqueda === null ? [] : queryMultiMatch(parametros.textoBusqueda);
+            let multi_match = _funciones.obtenerMultiMatch()
 
             let retorno = {
                 from: 0,
@@ -65,14 +73,16 @@ const app = (function () {
                 }
             };
             console.log(JSON.stringify(retorno));
+            return retorno;
         },
 
         obtenerIndice: function () {
             return $(_elementos.opcionIndex).find("option:selected").val();
         },
 
-        obtenerMultiMatch: function (opcion) {
+        obtenerMultiMatch: function () {
             let query = null;
+            let opcion = $(_elementos.opcionQuery).find("option:selected").val();
             let textoBusqueda = $(_elementos.textoBusqueda).val();
 
             switch (opcion) {
@@ -198,13 +208,109 @@ const app = (function () {
                 diaFacturacion: $(_elementos.diaFacturacion).val(),
                 personalizaciones: $(_elementos.personalizaciones).val() === "" ? "XYZ" : $(_elementos.personalizaciones).val()
             }
+        },
+
+        obtenerDatosHits: function (data) {
+            var documentos = [];
+            var i = 0;
+
+            for (const key in data.hits.hits) {
+                const res = data.hits.hits[key];
+                const element = res._source
+                i += 1;
+
+                let documentoResumido = {
+                    space: '',
+                    top: i,
+                    id: res._id,
+                    textoBusqueda: element.textoBusqueda,
+                    marcas: JSON.stringify(element.marcas),
+                    categorias: JSON.stringify(element.categorias),
+                    grupoArticulos: JSON.stringify(element.grupoArticulos),
+                    lineas: JSON.stringify(element.lineas),
+                    seccion: element.seccion,
+                    tipoPersonalizacion: element.tipoPersonalizacion,
+                    score: res._score,
+                    codigoEstrategia: element.codigoEstrategia,
+                    cuv: element.cuv
+                };
+
+                documentos.push(documentoResumido);
+            }
+
+            return documentos;
+        },
+
+        llenarTabla: function (datos) {
+            return $(_elementos.tablaResultados).DataTable({
+                data: datos,
+                searching: false,
+                bDestroy: true,
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                columnDefs: [{
+                    className: 'control',
+                    orderable: false,
+                    targets: 0
+                }],
+                order: [1, 'asc'],
+                columns: [
+                    { data: 'space' },
+                    { data: 'top' },
+                    { data: 'textoBusqueda' },
+                    { data: 'score' },
+                    { data: 'cuv' },
+                    { data: 'tipoPersonalizacion' },
+                    { data: 'marcas' },
+                    { data: 'categorias' },
+                    { data: 'grupoArticulos' },
+                    { data: 'lineas' },
+                    { data: 'seccion' },
+                    { data: 'codigoEstrategia' }
+                ]
+            });
         }
     }
 
     const _eventos = {
         buscar: function () {
-            
-            _funciones.construirQuery();
+            try {
+                _funciones.cargando(true);
+                _funciones.error(false);
+
+                let query = _funciones.construirQueryAvanzado();
+                _funciones.ejecutarQuery(query).then((r) => {
+                    $(_elementos.contadorResultados).text("Documentos encontrados: " + r.hits.total);
+                    let datos = _funciones.obtenerDatosHits(r);
+                    _funciones.llenarTabla(datos);
+                    _funciones.cargando(false);
+                }, (e) => {
+                    console.error(e);
+                    _funciones.error(true);
+                    _funciones.cargando(false);
+                });
+
+            } catch (error) {
+                console.log("error", error);
+                _funciones.cargando(false);
+                _funciones.error(true);
+            }
+        },
+
+        valoresDefault: function () {
+            $(_elementos.codigoConsultora).val("043370634");
+            $(_elementos.codigoZona).val("0825");
+            $(_elementos.personalizaciones).val("OPM");
+            $(_elementos.diaFacturacion).val("-10");
+            $(_elementos.sociaEmpresaria).attr('checked', false);
+            $(_elementos.chkSuscripcionActiva).attr('checked', true);
+            $(_elementos.chkMdo).attr('checked', true);
+            $(_elementos.chkRd).attr('checked', true);
+            $(_elementos.chkRdi).attr('checked', false);
+            $(_elementos.chkRdr).attr('checked', false);
         }
     }
 
