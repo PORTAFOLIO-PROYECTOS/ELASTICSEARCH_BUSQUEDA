@@ -9,7 +9,7 @@ const filtroShowroom = (function () {
         let consultoraX = config.constantes.consultoraX,
             consultoraY = config.constantes.consultoraY,
             consultora0 = config.constantes.consultora0,
-            isDummy = isDummy(parametros.personalizaciones, "SR"),
+            isDummy = isDummyFunction(parametros.personalizaciones, "SR"),
             must = [];
 
         if (isDummy) {

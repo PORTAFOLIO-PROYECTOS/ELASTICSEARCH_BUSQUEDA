@@ -14,8 +14,8 @@ const filtroOfertaParaTi = (function () {
             SuscripcionActiva = (parametros.suscripcionActiva === "1" || parametros.suscripcionActiva.toLowerCase() === "true") ? true : false,
             MDO = (parametros.mdo === "1" || parametros.mdo.toLowerCase() === "true") ? true : false,
             RDI = (parametros.rdi === "1" || parametros.rdi.toLowerCase() === "true") ? true : false,
-            isDummyOPM = isDummy(parametros.personalizaciones, "OPM"),
-            isDummyPAD = isDummy(parametros.personalizaciones, "PAD");
+            isDummyOPM = isDummyFunction(parametros.personalizaciones, "OPM"),
+            isDummyPAD = isDummyFunction(parametros.personalizaciones, "PAD");
 
         if (isDummyOPM && isDummyPAD) {
             must.push({ terms: { "codigoConsultora": [consultoraX, consultoraY] } });

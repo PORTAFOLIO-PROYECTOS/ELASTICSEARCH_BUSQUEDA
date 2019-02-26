@@ -9,7 +9,7 @@ const filtroOfertaDelDia = (function () {
         let consultoraX = config.constantes.consultoraX,
             consultoraY = config.constantes.consultoraY,
             consultora0 = config.constantes.consultora0,
-            isDummy = isDummy(parametros.personalizaciones, "ODD"),
+            isDummy = isDummyFunction(parametros.personalizaciones, "ODD"),
             must = [
                 { term: { "tipoPersonalizacion": "ODD" } },
                 { term: { "diaInicio": parametros.diaFacturacion } }
