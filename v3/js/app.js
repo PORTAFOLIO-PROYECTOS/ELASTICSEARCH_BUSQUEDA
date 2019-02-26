@@ -21,14 +21,20 @@ const app = (function () {
         chkRdr: "#rdr",
         btnBuscar: "#btnBuscar",
         btnLimpiar: "#btnLimpiar",
+        btnMostarBusquedaAvanzada: "#btnMostarBusquedaAvanzada",
+        btnBuscarAvanzado: "#btnBuscarAvanzado",
+        btnCancelarAvanzado: "#btnCancelarAvanzado",
         tablaResultados: "#tabladatos",
-        contadorResultados: "#contadorResultados"
+        contadorResultados: "#contadorResultados",
+        seccionButtons: "#seccionButtons",
+        searchAdvanceSeccion: "#searchAdvance"
     }
 
     const _funciones = {
         InicializarEventos: function () {
-            $(document).on("click", _elementos.btnBuscar, _eventos.buscar);
-
+            $(document).on("click", _elementos.btnBuscarAvanzado, _eventos.buscarAvanzado);
+            $(document).on("click", _elementos.btnMostarBusquedaAvanzada, _eventos.botonBusquedaAvanzada);
+            $(document).on("click", _elementos.btnCancelarAvanzado, _eventos.botonCancelarAvanzado);
             _eventos.valoresDefault();
         },
 
@@ -276,7 +282,7 @@ const app = (function () {
     }
 
     const _eventos = {
-        buscar: function () {
+        buscarAvanzado: function () {
             try {
                 _funciones.cargando(true);
                 _funciones.error(false);
@@ -298,6 +304,15 @@ const app = (function () {
                 _funciones.cargando(false);
                 _funciones.error(true);
             }
+        },
+
+        botonBusquedaAvanzada: function () {
+            $(_elementos.seccionButtons).fadeOut("slow");
+        },
+
+        botonCancelarAvanzado: function () {
+            $(_elementos.seccionButtons).fadeIn("slow");
+            $(_elementos.searchAdvanceSeccion).collapse("hide");
         },
 
         valoresDefault: function () {
