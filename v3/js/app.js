@@ -2,11 +2,6 @@
 
 const app = (function () {
 
-    const _config = {
-        urlES: "https://vpc-es-sbsearch-qa-6lqloaf2kfljixcaekbyqxu2aa.us-east-1.es.amazonaws.com",
-        sizeES: 250
-    }
-
     const _elementos = {
         cargarPantalla: ".cargaPantalla",
         errorMensaje: ".alert-danger",
@@ -39,7 +34,7 @@ const app = (function () {
             let indice = _funciones.obtenerIndice();
 
             return $.ajax({
-                url: `${_config.urlES}/${indice}/_search`,
+                url: `${config.elastic.urlES}/${indice}/_search`,
                 type: "post",
                 dataType: "json",
                 contentType: "application/json",
