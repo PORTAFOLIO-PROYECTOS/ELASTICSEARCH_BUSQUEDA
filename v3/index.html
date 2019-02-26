@@ -100,19 +100,19 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="opcion-index">Código Zona:</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="codigoZona">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="opcion-index">Personalizaciónes:</label>
-                                    <input type="text" class="form-control" placeholder="OPM,PAD,SR...">
+                                    <input type="text" class="form-control" placeholder="OPM,PAD,SR..." id="personalizaciones">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="opcion-index">Día facturación:</label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="diaFacturacion">
                                 </div>
                             </div>
                         </div>
@@ -203,19 +203,7 @@
         <h6 class="text-center">Pruebas de busqueda en elasticsearch</h6>
     </footer>
 
-    <script>
-        $(document).ready(function () {
-            $("#textoBusqueda").focus();
-            cargando(false);
-
-            $("#textoBusqueda").keypress(function (e) {
-                var code = (e.keyCode ? e.keyCode : e.which);
-                if (code == 13) {
-                    resultado();
-                }
-            });
-        });
-    </script>
+    
 </body>
 
 </html>
