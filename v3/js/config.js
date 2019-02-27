@@ -1,7 +1,7 @@
 const config = {
     elastic: {
         urlES: "https://vpc-es-sbsearch-qa-6lqloaf2kfljixcaekbyqxu2aa.us-east-1.es.amazonaws.com",
-        sizeES: 250
+        sizeES: 100
     },
     flags: {
         logicaShowRoom: true,

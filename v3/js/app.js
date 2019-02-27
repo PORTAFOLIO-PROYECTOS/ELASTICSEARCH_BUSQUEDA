@@ -33,8 +33,11 @@ const app = (function () {
     const _funciones = {
         InicializarEventos: function () {
             $(document).on("click", _elementos.btnBuscarAvanzado, _eventos.buscarAvanzado);
+            $(document).on("click", _elementos.btnBuscar, _eventos.buscarNormal);
             $(document).on("click", _elementos.btnMostarBusquedaAvanzada, _eventos.botonBusquedaAvanzada);
             $(document).on("click", _elementos.btnCancelarAvanzado, _eventos.botonCancelarAvanzado);
+            $(document).on("keypress", _elementos.textoBusqueda, _eventos.busquedaCampoTexto);
+            
             _eventos.valoresDefault();
         },
 
@@ -58,6 +61,22 @@ const app = (function () {
             });
         },
 
+        construirQuery: function () {
+            let sort = [
+                "_score",
+                {
+                    "orden": {
+                        "order": "asc"
+                    }
+                }
+                
+            ];
+
+            let retorno = _funciones.obtenerQueryConMultiMatch([], sort);
+
+            return retorno;
+        },
+
         construirQueryAvanzado: function () {
             let personalizaciones = config.constantes.Personalizacion;
             let must = _funciones.queryParametrosEnDuro();
@@ -65,19 +84,18 @@ const app = (function () {
 
             _funciones.queryPersonalizacionesCondiciones(parametros, personalizaciones, must);
 
-            let multi_match = _funciones.obtenerMultiMatch()
-
-            let retorno = {
-                from: 0,
-                size: 1000,
-                //sort: parametrosEntrada.sortValue,
-                query: {
-                    bool: {
-                        "must": multi_match,
-                        filter: must
+            let sort = [
+                "_score",
+                {
+                    "orden": {
+                        "order": "asc"
                     }
                 }
-            };
+
+            ];
+
+            let retorno = _funciones.obtenerQueryConMultiMatch(must, sort)
+
             console.log(JSON.stringify(retorno));
             return retorno;
         },
@@ -86,23 +104,23 @@ const app = (function () {
             return $(_elementos.opcionIndex).find("option:selected").val();
         },
 
-        obtenerMultiMatch: function () {
+        obtenerQueryConMultiMatch: function (filter, sort) {
             let query = null;
             let opcion = $(_elementos.opcionQuery).find("option:selected").val();
             let textoBusqueda = $(_elementos.textoBusqueda).val();
 
             switch (opcion) {
                 case "1":
-                    query = getQuery1(textoBusqueda)
+                    query = getQueryAdvance1(textoBusqueda, filter, sort)
                     break;
                 case "2":
-                    query = getQuery2(textoBusqueda)
+                    query = getQueryAdvance2(textoBusqueda, filter, sort)
                     break;
                 case "3":
-                    query = getQuery3(textoBusqueda)
+                    query = getQueryAdvance3(textoBusqueda, filter, sort)
                     break;
                 case "4":
-                    query = getQuery4(textoBusqueda)
+                    query = getQueryAdvance4(textoBusqueda, filter, sort)
                     break;
             }
 
@@ -282,6 +300,36 @@ const app = (function () {
     }
 
     const _eventos = {
+        busquedaCampoTexto: function(e){
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) {
+                _eventos.buscarNormal();
+            }
+        },
+
+        buscarNormal: function () {
+            try {
+                _funciones.cargando(true);
+                _funciones.error(false);
+
+                let query = _funciones.construirQuery();
+                _funciones.ejecutarQuery(query).then((r) => {
+                    $(_elementos.contadorResultados).text("Documentos encontrados: " + r.hits.total);
+                    let datos = _funciones.obtenerDatosHits(r);
+                    _funciones.llenarTabla(datos);
+                    _funciones.cargando(false);
+                }, (e) => {
+                    console.error(e);
+                    _funciones.error(true);
+                    _funciones.cargando(false);
+                });
+            } catch (error) {
+                console.log("error", error);
+                _funciones.cargando(false);
+                _funciones.error(true);
+            }
+        },
+
         buscarAvanzado: function () {
             try {
                 _funciones.cargando(true);

@@ -1,68 +1,103 @@
+/**
+ * QUERYS BUSQUEDA NORMAL
+ */
 //original
-function getQuery1(textoBusqueda) {
-	return [{
-		multi_match: {
-			query: textoBusqueda,
-			type: "cross_fields",
-			fields: ["textoBusqueda.ngram^5", "marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram", "seccion.ngram"],
-			operator: "and"
-		}
-	}];
+function getQueryAdvance1(textoBusqueda, filter, sort) {
+    return {
+        "size": config.elastic.sizeES,
+        "query": {
+			"bool": {
+				"must": [
+					{
+						"multi_match": {
+							"query": textoBusqueda,
+							"type": "cross_fields",
+							"fields": ["textoBusqueda.ngram^5", "marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram", "seccion.ngram"],
+							"operator": "and"
+						}
+					}
+				],
+				"filter": filter
+			}
+		},
+        "sort": sort
+    };
 }
 
 //textoBusqueda OR (marcas & categorias & lineas & grupoArticulos & seccion)
-function getQuery2(textoBusqueda) {
-	return {
-		should: [
-			{
-				match: { "textoBusqueda.ngram": textoBusqueda }
-			},
-			{
-				multi_match: {
-					query: textoBusqueda,
-					type: "cross_fields",
-					field: ["marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram", "seccion.ngram"],
-					operator: "and"
-				}
+function getQueryAdvance2(textoBusqueda, filter, sort) {
+    return {
+        "size": config.elastic.sizeES,
+        "query": {
+			"bool": {
+				"should": [
+                    {
+                        "match":{"textoBusqueda.ngram": textoBusqueda}
+                    },
+					{
+						"multi_match": {
+							"query": textoBusqueda,
+							"type": "cross_fields",
+							"fields": ["marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram", "seccion.ngram"],
+							"operator": "and"
+						}
+					}
+				],
+				"filter": filter
 			}
-		]
-	};
+		},
+        "sort": sort
+    };
 }
 
 //original sin AND
-function getQuery3(textoBusqueda) {
-	return {
-		should: [
-			{
-				multi_match: {
-					query: textoBusqueda,
-					type: "cross_fields",
-					fields: ["textoBusqueda.ngram^5", "marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram", "seccion.ngram"]
-				}
+function getQueryAdvance3(textoBusqueda, filter, sort) {
+    return {
+        "size": config.elastic.sizeES,
+        "query": {
+			"bool": {
+				"should": [
+					{
+						"multi_match": {
+							"query": textoBusqueda,
+							"type": "cross_fields",
+							"fields": ["textoBusqueda.ngram^5", "marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram", "seccion.ngram"]
+						}
+					}
+				],
+				"filter": filter
 			}
-		]
-	};
+		},
+        "sort": sort
+    };
 }
 
 //textoBusqueda OR (marcas & categorias & lineas & grupoArticulos & seccion)
-function getQuery4(textoBusqueda) {
-	return {
-		should: [
-			{
-				multi_match: {
-					query: textoBusqueda,
-					type: "best_fields",
-					fields: ["textoBusqueda^5", "textoBusqueda.ngram^2"]
-				}
-			},
-			{
-				multi_match: {
-					query: textoBusqueda,
-					type: "cross_fields",
-					fields: ["marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram", "seccion.ngram"],
-					operator: "and"
-				}
+function getQueryAdvance4(textoBusqueda, filter, sort) {
+    return {
+        "size": config.elastic.sizeES,
+        "query": {
+			"bool": {
+				"should": [
+                    {
+						"multi_match": {
+							"query": textoBusqueda,
+							"type": "best_fields",
+							"fields": ["textoBusqueda^5", "textoBusqueda.ngram^2"]
+						}
+					},
+					{
+						"multi_match": {
+							"query": textoBusqueda,
+							"type": "cross_fields",
+                            "fields": ["marcas.ngram", "categorias.ngram", "lineas.ngram", "grupoArticulos.ngram", "seccion.ngram"],
+                            "operator": "and"
+						}
+					}
+				],
+				"filter": filter
 			}
-		]
-	};
+		},
+        "sort": sort
+    };
 }
