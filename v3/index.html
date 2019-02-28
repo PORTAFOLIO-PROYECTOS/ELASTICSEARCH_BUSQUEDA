@@ -40,10 +40,13 @@
                             <option value="edge_ngram_producto_v1_pe_201903">ORIGINAL (combinado)</option>
                             <option value="ngram_producto_v1_pe_201903">NGRAM</option>
                             <option value="edge_producto_v1_pe_201903">EDGE</option>
+                            <option value="sinonimos_producto_v1_pe_201903">SINONIMO ORIGINAL</option>
+                            <option value="sinon_edge_producto_v1_pe_201903">SINONIMO EDGE</option>
+                            <option value="phonetic_producto_v1_pe_201903">PHONETIC</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row" id="seccionOpcionQuery">
                     <label class="col-md-5 col-form-label" for="opcion-query">Elija una Opción para la variante de la
                         consulta en Elastic:</label>
                     <div class="col-md-4">
@@ -55,16 +58,6 @@
                             <option value="4">4 - (textoBusqueda^5 AND textoBusqueda.ngram^2) OR (marcas & categorias &
                                 lineas & grupoArticulos & seccion)</option>
                         </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-5 offset-md-5">
-                        <div class="form-check ml-2">
-                            <input class="form-check-input" type="checkbox" value="" id="chk-intentar">
-                            <label class="form-check-label" for="chk-intentar">
-                                Intentar la opción 4 en caso de no encontrar resultados
-                            </label>
-                        </div>
                     </div>
                 </div>
                 <div class="form-group row">

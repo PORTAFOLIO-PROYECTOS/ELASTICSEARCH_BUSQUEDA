@@ -27,7 +27,8 @@ const app = (function () {
         tablaResultados: "#tabladatos",
         contadorResultados: "#contadorResultados",
         seccionButtons: "#seccionButtons",
-        searchAdvanceSeccion: "#searchAdvance"
+        searchAdvanceSeccion: "#searchAdvance",
+        seccionOpcionQuery: "#seccionOpcionQuery"
     }
 
     const _funciones = {
@@ -37,7 +38,8 @@ const app = (function () {
             $(document).on("click", _elementos.btnMostarBusquedaAvanzada, _eventos.botonBusquedaAvanzada);
             $(document).on("click", _elementos.btnCancelarAvanzado, _eventos.botonCancelarAvanzado);
             $(document).on("keypress", _elementos.textoBusqueda, _eventos.busquedaCampoTexto);
-            
+            $(document).on("change", _elementos.opcionIndex, _eventos.ocultarCombo);
+
             _eventos.valoresDefault();
         },
 
@@ -69,7 +71,7 @@ const app = (function () {
                         "order": "asc"
                     }
                 }
-                
+
             ];
 
             let retorno = _funciones.obtenerQueryConMultiMatch([], sort);
@@ -108,6 +110,9 @@ const app = (function () {
             let query = null;
             let opcion = $(_elementos.opcionQuery).find("option:selected").val();
             let textoBusqueda = $(_elementos.textoBusqueda).val();
+            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").val().toString().toLowerCase();
+
+            opcion = opcionPhonetic === "phonetic_producto_v1_pe_201903" ? "5" : opcion;
 
             switch (opcion) {
                 case "1":
@@ -122,6 +127,8 @@ const app = (function () {
                 case "4":
                     query = getQueryAdvance4(textoBusqueda, filter, sort)
                     break;
+                default:
+                    query = getQueryAdvance5(textoBusqueda, filter, sort);
             }
 
             return query;
@@ -300,7 +307,7 @@ const app = (function () {
     }
 
     const _eventos = {
-        busquedaCampoTexto: function(e){
+        busquedaCampoTexto: function (e) {
             var code = (e.keyCode ? e.keyCode : e.which);
             if (code == 13) {
                 _eventos.buscarNormal();
@@ -374,6 +381,16 @@ const app = (function () {
             $(_elementos.chkRd).attr('checked', true);
             $(_elementos.chkRdi).attr('checked', false);
             $(_elementos.chkRdr).attr('checked', false);
+        },
+
+        ocultarCombo: function () {
+            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").val().toString().toLowerCase();
+
+            if (opcionPhonetic === "phonetic_producto_v1_pe_201903") {
+                $(_elementos.seccionOpcionQuery).fadeOut("slow");
+            } else {
+                $(_elementos.seccionOpcionQuery).fadeIn("slow");
+            }
         }
     }
 

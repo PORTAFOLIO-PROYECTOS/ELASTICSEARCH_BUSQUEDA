@@ -5,7 +5,7 @@ const filtroShowroom = (function () {
     function filtrar(parametros, personalizacion, filtro) {
 
         if (!config.flags.logicaShowRoom) return personalizacion;
-
+    
         let consultoraX = config.constantes.consultoraX,
             consultoraY = config.constantes.consultoraY,
             consultora0 = config.constantes.consultora0,
