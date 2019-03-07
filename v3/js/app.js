@@ -75,7 +75,7 @@ const app = (function () {
             ];
 
             let retorno = _funciones.obtenerQueryConMultiMatch([], sort);
-
+            console.log("query ES:", retorno);
             return retorno;
         },
 
