@@ -110,10 +110,10 @@ const app = (function () {
             let query = null;
             let opcion = $(_elementos.opcionQuery).find("option:selected").val();
             let textoBusqueda = $(_elementos.textoBusqueda).val();
-            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").val().toString().toLowerCase();
-
-            opcion = opcionPhonetic === "phonetic_producto_v1_pe_201903" ? "5" : opcion;
-
+            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").text().toString().toLowerCase();
+			console.log(opcionPhonetic);
+            opcion = opcionPhonetic.startsWith("fonetico") ? "5" : opcion;
+            console.log("opcion:", opcion);
             switch (opcion) {
                 case "1":
                     query = getQueryAdvance1(textoBusqueda, filter, sort)
@@ -259,7 +259,7 @@ const app = (function () {
                     categorias: JSON.stringify(element.categorias),
                     grupoArticulos: JSON.stringify(element.grupoArticulos),
                     lineas: JSON.stringify(element.lineas),
-                    seccion: element.seccion,
+                    seccion: element.seccion === undefined ? element.seccion1 : element.seccion,
                     tipoPersonalizacion: element.tipoPersonalizacion,
                     score: res._score,
                     codigoEstrategia: element.codigoEstrategia,
@@ -384,9 +384,9 @@ const app = (function () {
         },
 
         ocultarCombo: function () {
-            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").val().toString().toLowerCase();
-
-            if (opcionPhonetic === "phonetic_producto_v1_pe_201903") {
+            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").text().toString().toLowerCase();
+			console.log(opcionPhonetic);
+            if (opcionPhonetic.startsWith("fonetico")) {
                 $(_elementos.seccionOpcionQuery).fadeOut("slow");
             } else {
                 $(_elementos.seccionOpcionQuery).fadeIn("slow");

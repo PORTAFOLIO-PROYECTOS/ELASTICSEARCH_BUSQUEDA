@@ -111,7 +111,7 @@ function getQueryAdvance5(textoBusqueda, filter, sort) {
 					{
 						"multi_match": {
 							"query": textoBusqueda,
-							"type": "cross_fields",
+							"type": "best_fields",
 							"fields": [
 								"textoBusqueda^10",
 								"textoBusqueda.phonetic^7",
@@ -131,8 +131,8 @@ function getQueryAdvance5(textoBusqueda, filter, sort) {
 								"seccion^3",
 								"seccion.phonetic^3",
 								"seccion.ngram"
-							],
-							"operator": "and"
+							]/*,
+							"operator": "and"*/
 						}
 					}
 				],
