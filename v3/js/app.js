@@ -371,9 +371,9 @@ const app = (function () {
         },
 
         valoresDefault: function () {
-            $(_elementos.codigoConsultora).val("043370634");
+            $(_elementos.codigoConsultora).val("1140159");
             $(_elementos.codigoZona).val("0825");
-            $(_elementos.personalizaciones).val("OPM");
+            //$(_elementos.personalizaciones).val("OPM");
             $(_elementos.diaFacturacion).val("-10");
             $(_elementos.sociaEmpresaria).attr('checked', false);
             $(_elementos.chkSuscripcionActiva).attr('checked', true);

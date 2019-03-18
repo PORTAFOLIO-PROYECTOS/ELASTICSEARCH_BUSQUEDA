@@ -111,34 +111,40 @@ function getQueryAdvance5(textoBusqueda, filter, sort) {
 					{
 						"multi_match": {
 							"query": textoBusqueda,
-							"type": "best_fields",
+							"type": "most_fields",
 							"fields": [
-								"textoBusqueda^10",
-								"textoBusqueda.phonetic^7",
-								"textoBusqueda.ngram^5",
-								"marcas^3",
-								"marcas.phonetic^2",
+								"textoBusqueda^20",															
+								"textoBusqueda.synonym^10",	
+								"textoBusqueda.phonetic^8",																
+								"textoBusqueda.ngram^2",
+								"marcas^12",
+								"marcas.synonym^6",
+								"marcas.phonetic^5",
 								"marcas.ngram",
-								"categorias^3",
-								"categorias.phonetic^2",
+								"categorias^12",
+								"categorias.synonym^6",
+								"categorias.phonetic^5",
 								"categorias.ngram",
-								"lineas^3",
-								"lineas.phonetic^2",
+								"lineas^12",
+								"lineas.synonym^6",
+								"lineas.phonetic^5",
 								"lineas.ngram",
-								"grupoArticulos^3",
-								"grupoArticulos.phonetic^3",
+								"grupoArticulos^12",
+								"grupoArticulos.synonym^6",
+								"grupoArticulos.phonetic^5",
 								"grupoArticulos.ngram",
-								"seccion^3",
-								"seccion.phonetic^3",
-								"seccion.ngram"
-							]/*,
-							"operator": "and"*/
+								"seccion1^12",
+								"seccion1.synonym^6",
+								"seccion1.phonetic^5",
+								"seccion1.ngram"
+							]
+							//,"operator": "and"
 						}
 					}
 				],
 				"filter": filter
 			}
-		},
-		"sort": sort
+		}//,
+		//"sort": sort
 	};
 }
