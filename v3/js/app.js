@@ -237,7 +237,7 @@ const app = (function () {
                 rdi: $(_elementos.chkRdi).is(":checked") ? "true" : "false",
                 rdr: $(_elementos.chkRdr).is(":checked") ? "true" : "false",
                 diaFacturacion: $(_elementos.diaFacturacion).val(),
-                personalizaciones: $(_elementos.personalizaciones).val() === "" ? "XYZ" : $(_elementos.personalizaciones).val()
+                personalizaciones: $(_elementos.personalizaciones).val() === "" ? "" : $(_elementos.personalizaciones).val()
             }
         },
 
