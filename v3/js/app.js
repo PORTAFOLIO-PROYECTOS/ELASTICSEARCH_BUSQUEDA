@@ -230,8 +230,8 @@ const app = (function () {
             return {
                 codigoConsultora: $(_elementos.codigoConsultora).val(),
                 codigoZona: $(_elementos.codigoZona).val(),
-                sociaEmpresaria: $(_elementos.sociaEmpresaria).is(":checked") ? "true" : "false",
-                suscripcionActiva: $(_elementos.suscripcionActiva).is(":checked") ? "true" : "false",
+                sociaEmpresaria: $(_elementos.chkSociaEmpresaria).is(":checked") ? "true" : "false",
+                suscripcionActiva: $(_elementos.chkSuscripcionActiva).is(":checked") ? "true" : "false",
                 mdo: $(_elementos.chkMdo).is(":checked") ? "true" : "false",
                 rd: $(_elementos.chkRd).is(":checked") ? "true" : "false",
                 rdi: $(_elementos.chkRdi).is(":checked") ? "true" : "false",
