@@ -65,13 +65,12 @@ const app = (function () {
 
         construirQuery: function () {
             let sort = [
-                "_score",
                 {
                     "orden": {
                         "order": "asc"
                     }
-                }
-
+                },
+                "_score"                
             ];
 
             let retorno = _funciones.obtenerQueryConMultiMatch([], sort);
