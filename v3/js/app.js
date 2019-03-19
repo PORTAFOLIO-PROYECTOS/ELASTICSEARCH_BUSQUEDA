@@ -262,7 +262,8 @@ const app = (function () {
                     tipoPersonalizacion: element.tipoPersonalizacion,
                     score: res._score,
                     codigoEstrategia: element.codigoEstrategia,
-                    cuv: element.cuv
+                    cuv: element.cuv, 
+                    orden: element.orden
                 };
 
                 documentos.push(documentoResumido);
@@ -299,7 +300,8 @@ const app = (function () {
                     { data: 'grupoArticulos' },
                     { data: 'lineas' },
                     { data: 'seccion' },
-                    { data: 'codigoEstrategia' }
+                    { data: 'codigoEstrategia' },
+                    { data: "orden"}
                 ]
             });
         }
