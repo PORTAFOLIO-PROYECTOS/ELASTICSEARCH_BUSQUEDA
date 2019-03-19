@@ -110,10 +110,10 @@ const app = (function () {
             let query = null;
             let opcion = $(_elementos.opcionQuery).find("option:selected").val();
             let textoBusqueda = $(_elementos.textoBusqueda).val();
-            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").val().toString().toLowerCase();
-
-            opcion = opcionPhonetic === "phonetic_producto_v1_pe_201903" ? "5" : opcion;
-
+            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").text().toString().toLowerCase();
+			console.log(opcionPhonetic);
+            opcion = opcionPhonetic.startsWith("fonetico") ? "5" : opcion;
+            console.log("opcion:", opcion);
             switch (opcion) {
                 case "1":
                     query = getQueryAdvance1(textoBusqueda, filter, sort)
@@ -230,14 +230,14 @@ const app = (function () {
             return {
                 codigoConsultora: $(_elementos.codigoConsultora).val(),
                 codigoZona: $(_elementos.codigoZona).val(),
-                sociaEmpresaria: $(_elementos.sociaEmpresaria).is(":checked") ? "true" : "false",
-                suscripcionActiva: $(_elementos.suscripcionActiva).is(":checked") ? "true" : "false",
+                sociaEmpresaria: $(_elementos.chkSociaEmpresaria).is(":checked") ? "true" : "false",
+                suscripcionActiva: $(_elementos.chkSuscripcionActiva).is(":checked") ? "true" : "false",
                 mdo: $(_elementos.chkMdo).is(":checked") ? "true" : "false",
                 rd: $(_elementos.chkRd).is(":checked") ? "true" : "false",
                 rdi: $(_elementos.chkRdi).is(":checked") ? "true" : "false",
                 rdr: $(_elementos.chkRdr).is(":checked") ? "true" : "false",
                 diaFacturacion: $(_elementos.diaFacturacion).val(),
-                personalizaciones: $(_elementos.personalizaciones).val() === "" ? "XYZ" : $(_elementos.personalizaciones).val()
+                personalizaciones: $(_elementos.personalizaciones).val() === "" ? "" : $(_elementos.personalizaciones).val()
             }
         },
 
@@ -259,7 +259,7 @@ const app = (function () {
                     categorias: JSON.stringify(element.categorias),
                     grupoArticulos: JSON.stringify(element.grupoArticulos),
                     lineas: JSON.stringify(element.lineas),
-                    seccion: element.seccion,
+                    seccion: element.seccion === undefined ? element.seccion1 : element.seccion,
                     tipoPersonalizacion: element.tipoPersonalizacion,
                     score: res._score,
                     codigoEstrategia: element.codigoEstrategia,
@@ -371,9 +371,9 @@ const app = (function () {
         },
 
         valoresDefault: function () {
-            $(_elementos.codigoConsultora).val("043370634");
+            $(_elementos.codigoConsultora).val("1140159");
             $(_elementos.codigoZona).val("0825");
-            $(_elementos.personalizaciones).val("OPM");
+            //$(_elementos.personalizaciones).val("OPM");
             $(_elementos.diaFacturacion).val("-10");
             $(_elementos.sociaEmpresaria).attr('checked', false);
             $(_elementos.chkSuscripcionActiva).attr('checked', true);
@@ -384,9 +384,9 @@ const app = (function () {
         },
 
         ocultarCombo: function () {
-            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").val().toString().toLowerCase();
-
-            if (opcionPhonetic === "phonetic_producto_v1_pe_201903") {
+            let opcionPhonetic = $(_elementos.opcionIndex).find("option:selected").text().toString().toLowerCase();
+			console.log(opcionPhonetic);
+            if (opcionPhonetic.startsWith("fonetico")) {
                 $(_elementos.seccionOpcionQuery).fadeOut("slow");
             } else {
                 $(_elementos.seccionOpcionQuery).fadeIn("slow");
