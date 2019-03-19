@@ -116,7 +116,7 @@ function getQueryAdvance5(textoBusqueda, filter, sort) {
 								"textoBusqueda^20",															
 								"textoBusqueda.synonym^15",	
 								"textoBusqueda.phonetic^12",
-								"textoBusqueda.ngram^2",
+								"textoBusqueda.ngram^10",
 								
 								"marcas^8",
 								"marcas.synonym^6",
@@ -130,7 +130,7 @@ function getQueryAdvance5(textoBusqueda, filter, sort) {
 								
 								"lineas^8",
 								"lineas.synonym^6",
-								"lineas.phonetic^4",
+								//"lineas.phonetic^4",
 								"lineas.ngram",
 								
 								"grupoArticulos^8",
